@@ -27,4 +27,14 @@ export class Task {
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
+
+  editTask(newData: Partial<Pick<TaskProps, 'description' | 'status'>>) {
+    return new Task({
+      id: this.id,
+      description: newData.description ?? this.description,
+      createdAt: this.createdAt,
+      updatedAt: new Date(),
+      status: newData.status ?? this.status,
+    });
+  }
 }

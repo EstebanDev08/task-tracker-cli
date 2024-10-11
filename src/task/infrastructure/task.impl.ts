@@ -10,6 +10,7 @@ import { TaskRespository } from '../domain/task.repository';
 
 import { InvalidExtFile } from './errors/invalidExtFile';
 import { InvalidTaskStoragedInFile } from './errors/invalidTaskInJson';
+import { TaskNotFounInJsonFile } from './errors/notFoundTask';
 import { SaveInFileError } from './errors/saveInFile';
 
 export class InJsonFileStorageTaskImpl implements TaskRespository {
@@ -26,14 +27,23 @@ export class InJsonFileStorageTaskImpl implements TaskRespository {
     this.validateExtFile();
   }
 
+  async getById(id: TaskID): Promise<Task> {
+    const existingTask = await this.getAllTask();
+
+    const foundTask = existingTask.find((task) => task.id.value === id.value);
+
+    if (!foundTask) {
+      throw new TaskNotFounInJsonFile('The task does not exist');
+    }
+    return foundTask;
+  }
+
   async addTask(task: Task): Promise<void> {
     const existingTask = await this.getAllTask();
 
     existingTask.push(task);
 
-    const tasksToSave: TaskJson[] = existingTask.map((item) => this.formatTask(item));
-
-    await this.saveData(tasksToSave);
+    await this.saveData(existingTask);
   }
 
   async removeTask(id: TaskID): Promise<void> {
@@ -41,13 +51,18 @@ export class InJsonFileStorageTaskImpl implements TaskRespository {
 
     const tasks = existingTask.filter((item) => item.id.value !== id.value);
 
-    const tasksToSave: TaskJson[] = tasks.map((task) => this.formatTask(task));
-
-    await this.saveData(tasksToSave);
+    await this.saveData(tasks);
   }
 
-  editTask(task: Task): Promise<void> {
-    throw new Error('Method not implemented.');
+  async editTask(task: Task): Promise<void> {
+    const existingTask = await this.getAllTask();
+
+    const taskIndex = existingTask.findIndex((item) => item.id.value === task.id.value);
+    if (taskIndex !== -1) {
+      existingTask[taskIndex] = task;
+    }
+
+    await this.saveData(existingTask);
   }
 
   async getAllTask(stutus?: TaskStatus): Promise<Task[]> {
@@ -83,9 +98,11 @@ export class InJsonFileStorageTaskImpl implements TaskRespository {
     return tasks;
   }
 
-  private async saveData(data: unknown) {
+  private async saveData(data: Task[]) {
     try {
-      await writeFile(this.filePath, JSON.stringify(data, null, 2));
+      const formatedTask = data.map((task) => this.formatTask(task));
+
+      await writeFile(this.filePath, JSON.stringify(formatedTask, null, 2));
     } catch (error) {
       throw new SaveInFileError(`Error al guardar datos en archivo`);
     }

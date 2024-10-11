@@ -1,7 +1,7 @@
 import { TaskID } from '#src/task/domain/entity/props/taskID';
 import { TaskRespository } from '#src/task/domain/task.repository';
 
-export class GetTaskUseCase {
+export class RemoveTaskUseCase {
   constructor(private readonly taskRepo: TaskRespository) {}
 
   async run(id: number) {
