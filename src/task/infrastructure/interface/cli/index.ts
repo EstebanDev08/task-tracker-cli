@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 
-import { addTaskCliManager, updateTaskCliManager } from './dependecies';
+import { addTaskCliManager, removeTaskCliManager, updateTaskCliManager } from './dependecies';
 
 const printHelp = () => {
   console.log('Usage: task <command> [options]');
@@ -31,6 +31,11 @@ export const taskCliManager = async (args: string[]) => {
 
     case 'update':
       await updateTaskCliManager.run(commandArgs, false);
+
+      break;
+
+    case 'delete':
+      await removeTaskCliManager.run(commandArgs);
 
       break;
 
