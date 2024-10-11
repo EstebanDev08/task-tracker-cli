@@ -14,6 +14,8 @@ export class DeleteTaskCliManager {
       const id = parseInt(args[0]);
 
       await this.deleteTaskUseCase.run(id);
+
+      console.log(`Task deleted successfully`);
     } catch (error) {
       cliErrorHandler(error);
     }

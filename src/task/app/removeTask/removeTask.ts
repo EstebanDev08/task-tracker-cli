@@ -5,6 +5,8 @@ export class RemoveTaskUseCase {
   constructor(private readonly taskRepo: TaskRespository) {}
 
   async run(id: number) {
-    return this.taskRepo.removeTask(new TaskID(id));
+    const task = await this.taskRepo.getById(new TaskID(id));
+
+    return this.taskRepo.removeTask(task.id);
   }
 }
