@@ -1,3 +1,5 @@
+import { TaskDescriptionError } from '../errors/description';
+
 import { TaskID } from './props/taskID';
 import { TaskStatus } from './props/taskStatus';
 
@@ -22,10 +24,11 @@ export class Task {
 
   constructor({ id, description, status, createdAt, updatedAt }: TaskProps) {
     this.id = id;
-    this.description = description;
+    this.description = description.trim();
     this.status = status;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
+    this.validateDescription();
   }
 
   editTask(newData: Partial<Pick<TaskProps, 'description' | 'status'>>) {
@@ -36,5 +39,11 @@ export class Task {
       updatedAt: new Date(),
       status: newData.status ?? this.status,
     });
+  }
+
+  private validateDescription() {
+    if (this.description.length === 0) {
+      throw new TaskDescriptionError('Description cannot be empty');
+    }
   }
 }

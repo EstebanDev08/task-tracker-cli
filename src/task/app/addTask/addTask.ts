@@ -10,12 +10,12 @@ type InputNewTask = {
 export class AddTaskUseCase {
   constructor(private readonly taskRepo: TaskRespository) {}
 
-  async run({ description }: InputNewTask): Promise<void> {
+  async run({ description }: InputNewTask): Promise<number> {
     const existingTask = await this.taskRepo.getAllTask();
 
-    const lastTask = existingTask[existingTask.length - 1];
+    const lastTaskId = existingTask[existingTask.length - 1]?.id?.value ?? 0;
 
-    const newTaskId = new TaskID(lastTask.id.value + 1);
+    const newTaskId = new TaskID(lastTaskId + 1);
 
     const newTask = new Task({
       id: newTaskId,
@@ -26,5 +26,7 @@ export class AddTaskUseCase {
     });
 
     await this.taskRepo.addTask(newTask);
+
+    return newTaskId.value;
   }
 }

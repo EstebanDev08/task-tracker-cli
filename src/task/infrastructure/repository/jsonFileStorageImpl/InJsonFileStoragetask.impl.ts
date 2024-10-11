@@ -3,10 +3,10 @@ import fs from 'fs';
 import { readFile, writeFile } from 'fs/promises';
 import path from 'path';
 
-import { TaskID } from '../domain/entity/props/taskID';
-import { TaskStatus } from '../domain/entity/props/taskStatus';
-import { Task } from '../domain/entity/task.entity';
-import { TaskRespository } from '../domain/task.repository';
+import { TaskID } from '../../../domain/entity/props/taskID';
+import { TaskStatus } from '../../../domain/entity/props/taskStatus';
+import { Task } from '../../../domain/entity/task.entity';
+import { TaskRespository } from '../../../domain/task.repository';
 
 import { InvalidExtFile } from './errors/invalidExtFile';
 import { InvalidTaskStoragedInFile } from './errors/invalidTaskInJson';
@@ -60,6 +60,9 @@ export class InJsonFileStorageTaskImpl implements TaskRespository {
     const taskIndex = existingTask.findIndex((item) => item.id.value === task.id.value);
     if (taskIndex !== -1) {
       existingTask[taskIndex] = task;
+    }
+    {
+      throw new TaskNotFounInJsonFile('The task does not exist');
     }
 
     await this.saveData(existingTask);
