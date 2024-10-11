@@ -3,7 +3,7 @@ import { TaskStatus } from '#src/task/domain/entity/props/taskStatus';
 import { TaskRespository } from '#src/task/domain/task.repository';
 
 type InputNewTask = {
-  status?: TaskStatus;
+  status?: string;
   description?: string;
 };
 
@@ -13,7 +13,11 @@ export class EditTaskUseCase {
   async run(id: number, editData: InputNewTask): Promise<void> {
     const taskforEdit = await this.taskRepo.getById(new TaskID(id));
 
-    const taskEdited = taskforEdit.editTask(editData);
+    const taskEdited = taskforEdit.editTask({
+      description: editData.description ?? taskforEdit.description,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ...(editData.status ? new TaskStatus(editData.status as any) : undefined),
+    });
 
     await this.taskRepo.editTask(taskEdited);
   }

@@ -8,8 +8,10 @@ export class TaskStatus {
   }
 
   validateValue() {
-    if (this.value === 'done' || this.value === 'in-process' || this.value === 'todo') return;
-
-    throw new TaskStusError('Status Must Be: "todo" | "in-process" | "done"');
+    if (this.value === 'done' || this.value === 'in-process' || this.value === 'todo') {
+      return;
+    } else {
+      throw new TaskStusError('Status Must Be: "todo" | "in-process" | "done"');
+    }
   }
 }

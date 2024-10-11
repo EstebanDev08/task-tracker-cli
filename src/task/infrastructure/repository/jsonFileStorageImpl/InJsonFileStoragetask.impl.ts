@@ -60,8 +60,7 @@ export class InJsonFileStorageTaskImpl implements TaskRespository {
     const taskIndex = existingTask.findIndex((item) => item.id.value === task.id.value);
     if (taskIndex !== -1) {
       existingTask[taskIndex] = task;
-    }
-    {
+    } else {
       throw new TaskNotFounInJsonFile('The task does not exist');
     }
 

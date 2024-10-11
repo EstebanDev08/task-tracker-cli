@@ -1,19 +1,19 @@
 /* eslint-disable no-console */
 
-import { addTaskCliManager } from './dependecies';
+import { addTaskCliManager, updateTaskCliManager } from './dependecies';
 
 const printHelp = () => {
   console.log('Usage: task <command> [options]');
   console.log('Available commands:');
   console.log('  add <description>             Add a new task');
-  // console.log('  edit <id> <description>       Edit an existing task');
+  console.log('  update <id> <description>     Edit an existing task');
   // console.log('  list                          List all tasks');
   // console.log('  delete <id>                   Delete a task by ID');
   console.log('  help                          Show available commands');
   process.exit(0);
 };
 
-export const taskCliManager = (args: string[]) => {
+export const taskCliManager = async (args: string[]) => {
   if (args.length === 0) {
     printHelp();
   }
@@ -25,7 +25,12 @@ export const taskCliManager = (args: string[]) => {
   // Procesar el comando
   switch (command) {
     case 'add':
-      addTaskCliManager.run(commandArgs);
+      await addTaskCliManager.run(commandArgs);
+
+      break;
+
+    case 'update':
+      await updateTaskCliManager.run(commandArgs, false);
 
       break;
 

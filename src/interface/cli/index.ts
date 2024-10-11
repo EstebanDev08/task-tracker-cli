@@ -22,6 +22,7 @@ const moduleArgs = args.slice(1);
 switch (moduleName) {
   case 'task':
     taskCliManager(moduleArgs);
+
     break;
 
   default:

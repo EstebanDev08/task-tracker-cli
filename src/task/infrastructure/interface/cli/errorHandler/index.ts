@@ -6,6 +6,4 @@ export const cliErrorHandler = (error: Error | unknown) => {
   if (error instanceof ValidationError) {
     return validationErrorHandler(error);
   }
-
-  console.error(error);
 };
