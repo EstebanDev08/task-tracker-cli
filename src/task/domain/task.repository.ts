@@ -6,5 +6,5 @@ export interface TaskRespository {
   addTask(task: Task): Promise<void>;
   removeTask(id: TaskID): Promise<void>;
   editTask(task: Task): Promise<void>;
-  getAllTask(stutus: TaskStatus): Promise<Task[]>;
+  getAllTask(stutus?: TaskStatus): Promise<Task[]>;
 }

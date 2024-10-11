@@ -14,7 +14,7 @@ type InputNewTask = {
 export class AddTaskUseCase {
   constructor(private readonly taskRepo: TaskRespository) {}
 
-  async run({ id, description, status, createdAt, updatedAt }: InputNewTask) {
+  async run({ id, description, status, createdAt, updatedAt }: InputNewTask): Promise<void> {
     const newTask = new Task({ id: new TaskID(id), description, status, createdAt, updatedAt });
 
     await this.taskRepo.addTask(newTask);

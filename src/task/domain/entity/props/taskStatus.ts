@@ -1,7 +1,9 @@
 import { TaskStusError } from '../../errors/Status.error';
 
+type StatusType = 'todo' | 'in-process' | 'done';
+
 export class TaskStatus {
-  constructor(readonly value: 'todo' | 'in-process' | 'done' = 'todo') {
+  constructor(readonly value: StatusType) {
     this.validateValue();
   }
 
