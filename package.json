@@ -2,10 +2,12 @@
   "name": "task-tracker",
   "version": "1.0.0",
   "main": "index.js",
+  "bin": "dist/src/interface/cli/index.js",
   "scripts": {
-    "start": "node dist/src/index.js",
-    "dev": "nodemon --exec ts-node -r tsconfig-paths/register src/index.ts",
     "build": "rm -rf dist && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.json ",
+    "task-tracker": "node dist/src/interface/cli/index.js",
+    "dev-task-tracker": "ts-node -r tsconfig-paths/register src/interface/cli/index.ts",
+    "dev:cli": "ts-node -r tsconfig-paths/register src/interface/cli/index.ts",
     "clean": "rm -rf ./node_modules ./dist",
     "lint": "eslint ./ --ext ts"
   },
