@@ -36,8 +36,14 @@ export class InJsonFileStorageTaskImpl implements TaskRespository {
     await this.saveData(tasksToSave);
   }
 
-  removeTask(id: TaskID): Promise<void> {
-    throw new Error('Method not implemented.');
+  async removeTask(id: TaskID): Promise<void> {
+    const existingTask = await this.getAllTask();
+
+    const tasks = existingTask.filter((item) => item.id.value !== id.value);
+
+    const tasksToSave: TaskJson[] = tasks.map((task) => this.formatTask(task));
+
+    await this.saveData(tasksToSave);
   }
 
   editTask(task: Task): Promise<void> {
