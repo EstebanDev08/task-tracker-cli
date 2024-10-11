@@ -25,10 +25,12 @@ export class InJsonFileStorageTaskImpl implements TaskRespository {
     this.validateExtFile();
   }
 
-  addTask(task: Task): Promise<void> {
-    console.log(task);
+  async addTask(task: Task): Promise<void> {
+    const existingTask = await this.getAllTask();
 
-    throw new Error('Method not implemented.');
+    existingTask.push(task);
+
+    console.log(existingTask);
   }
 
   removeTask(id: TaskID): Promise<void> {

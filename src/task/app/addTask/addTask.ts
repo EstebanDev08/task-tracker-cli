@@ -4,18 +4,26 @@ import { Task } from '#src/task/domain/entity/task.entity';
 import { TaskRespository } from '#src/task/domain/task.repository';
 
 type InputNewTask = {
-  id: number;
   description: string;
-  status: TaskStatus;
-  createdAt: Date;
-  updatedAt: Date;
 };
 
 export class AddTaskUseCase {
   constructor(private readonly taskRepo: TaskRespository) {}
 
-  async run({ id, description, status, createdAt, updatedAt }: InputNewTask): Promise<void> {
-    const newTask = new Task({ id: new TaskID(id), description, status, createdAt, updatedAt });
+  async run({ description }: InputNewTask): Promise<void> {
+    const existingTask = await this.taskRepo.getAllTask();
+
+    const lastTask = existingTask[existingTask.length - 1];
+
+    const newTaskId = new TaskID(lastTask.id.value + 1);
+
+    const newTask = new Task({
+      id: newTaskId,
+      description,
+      status: new TaskStatus('todo'),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
 
     await this.taskRepo.addTask(newTask);
   }
