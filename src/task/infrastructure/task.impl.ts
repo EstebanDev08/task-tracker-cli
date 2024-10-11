@@ -10,6 +10,7 @@ import { TaskRespository } from '../domain/task.repository';
 
 import { InvalidExtFile } from './errors/invalidExtFile';
 import { InvalidTaskStoragedInFile } from './errors/invalidTaskInJson';
+import { SaveInFileError } from './errors/saveInFile';
 
 export class InJsonFileStorageTaskImpl implements TaskRespository {
   private readonly filePath: string;
@@ -30,7 +31,9 @@ export class InJsonFileStorageTaskImpl implements TaskRespository {
 
     existingTask.push(task);
 
-    console.log(existingTask);
+    const tasksToSave: TaskJson[] = existingTask.map((item) => this.formatTask(item));
+
+    await this.saveData(tasksToSave);
   }
 
   removeTask(id: TaskID): Promise<void> {
@@ -74,6 +77,14 @@ export class InJsonFileStorageTaskImpl implements TaskRespository {
     return tasks;
   }
 
+  private async saveData(data: unknown) {
+    try {
+      await writeFile(this.filePath, JSON.stringify(data, null, 2));
+    } catch (error) {
+      throw new SaveInFileError(`Error al guardar datos en archivo`);
+    }
+  }
+
   private validateExtFile() {
     const nameParts = this.fileName.split('.');
     if (nameParts.length === 1) {
@@ -96,6 +107,16 @@ export class InJsonFileStorageTaskImpl implements TaskRespository {
 
   private isValidTaskArray(data: any): data is TaskJson[] {
     return Array.isArray(data) && data.every(this.isValidTask);
+  }
+
+  private formatTask(task: Task): TaskJson {
+    return {
+      id: task.id.value,
+      description: task.description,
+      status: task.status.value,
+      createdAt: task.createdAt.toJSON(),
+      updatedAt: task.updatedAt.toJSON(),
+    };
   }
 }
 
