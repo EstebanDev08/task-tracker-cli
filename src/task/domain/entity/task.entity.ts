@@ -32,6 +32,8 @@ export class Task {
   }
 
   editTask(newData: Partial<Pick<TaskProps, 'description' | 'status'>>) {
+    console.log(newData);
+
     return new Task({
       id: this.id,
       description: newData.description ?? this.description,

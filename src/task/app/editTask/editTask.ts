@@ -16,7 +16,8 @@ export class EditTaskUseCase {
     const taskEdited = taskforEdit.editTask({
       description: editData.description ?? taskforEdit.description,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ...(editData.status ? new TaskStatus(editData.status as any) : undefined),
+      status:
+        new TaskStatus(editData.status as 'done' | 'in-process' | 'todo') || taskforEdit.status,
     });
 
     await this.taskRepo.editTask(taskEdited);

@@ -34,6 +34,18 @@ export const taskCliManager = async (args: string[]) => {
 
       break;
 
+    case 'mark-in-process':
+      commandArgs.push('in-process');
+      await updateTaskCliManager.run(commandArgs, true);
+
+      break;
+
+    case 'mark-done':
+      commandArgs.push('done');
+      await updateTaskCliManager.run(commandArgs, true);
+
+      break;
+
     case 'delete':
       await removeTaskCliManager.run(commandArgs);
 
