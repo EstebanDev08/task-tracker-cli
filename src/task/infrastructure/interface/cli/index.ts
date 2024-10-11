@@ -1,14 +1,19 @@
 /* eslint-disable no-console */
 
-import { addTaskCliManager, removeTaskCliManager, updateTaskCliManager } from './dependecies';
+import {
+  addTaskCliManager,
+  listTaskCliManager,
+  removeTaskCliManager,
+  updateTaskCliManager,
+} from './dependecies';
 
 const printHelp = () => {
   console.log('Usage: task <command> [options]');
   console.log('Available commands:');
   console.log('  add <description>             Add a new task');
   console.log('  update <id> <description>     Edit an existing task');
-  // console.log('  list                          List all tasks');
-  // console.log('  delete <id>                   Delete a task by ID');
+  console.log('  list <status>                 List all tasks');
+  console.log('  delete <id>                   Delete a task by ID');
   console.log('  help                          Show available commands');
   process.exit(0);
 };
@@ -43,6 +48,11 @@ export const taskCliManager = async (args: string[]) => {
     case 'mark-done':
       commandArgs.push('done');
       await updateTaskCliManager.run(commandArgs, true);
+
+      break;
+
+    case 'list':
+      await listTaskCliManager.run(commandArgs);
 
       break;
 
