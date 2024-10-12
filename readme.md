@@ -2,6 +2,20 @@
 
 This is a CLI application to manage your tasks from the terminal. You can add, edit, delete, and list tasks, as well as filter them by status.
 
+## Architecture
+
+This project follows the **Clean Hexagonal Architecture** (also known as **Ports and Adapters Architecture**). The goal of this architecture is to keep the business logic (domain) independent from the frameworks, external interfaces, and other delivery mechanisms like CLI or API.
+
+The current implementation focuses on a **Command Line Interface (CLI)** for managing tasks, but the project is structured in such a way that additional interfaces (such as a **REST API**, **GraphQL**, or even a **Web UI**) can be implemented without changing the core logic. Each interface or delivery mechanism would be treated as a separate "adapter" that connects to the same core business logic.
+
+### Key Benefits of Hexagonal Architecture:
+
+- **Separation of concerns**: The business logic is isolated from the delivery mechanism.
+- **Easy to extend**: You can easily add new interfaces (e.g., API, web) without modifying the core logic.
+- **Testability**: The core logic can be tested independently from the external layers (like CLI or API).
+
+## Installation
+
 ## Installation
 
 1. **Clone the repository** to your local machine:
