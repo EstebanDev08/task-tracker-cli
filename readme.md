@@ -184,3 +184,9 @@ npm unlink
 ## Contact
 
 If you encounter issues or have suggestions, please open an issue in the repository or contact the developer at the following email: @EstebanDev08 or estebansolarte86@gmail.com.
+
+### Inspiration
+
+The idea for this project was inspired by the **Task Tracker** project from [roadmap.sh](https://roadmap.sh/projects/task-tracker). However, the **entire structure, design, and development** of this implementation were built from scratch by me, following **Clean Hexagonal Architecture** principles to ensure flexibility and scalability. All code, architecture, and functionality were developed independently, tailored to this project's specific requirements and goals.
+
+
